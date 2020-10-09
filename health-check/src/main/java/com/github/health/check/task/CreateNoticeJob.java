@@ -1,18 +1,19 @@
 package com.github.health.check.task;
 
+import com.github.health.check.constant.CommonConstants;
 import com.github.health.check.domain.entity.Channel;
 import com.github.health.check.domain.entity.Flip;
 import com.github.health.check.domain.entity.Notification;
 import com.github.health.check.service.ChannelService;
 import com.github.health.check.service.FlipService;
 import com.github.health.check.service.NotificationService;
+import com.github.health.check.util.KeyGenerator;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.*;
 
 public class CreateNoticeJob extends QuartzJobBean {
@@ -36,7 +37,7 @@ public class CreateNoticeJob extends QuartzJobBean {
         for (Flip flip : flips) {
             String projectName = flip.getProjectName();
             String checkName = flip.getCheckName();
-            String key = bulidKey(projectName, checkName);
+            String key = KeyGenerator.generateKey(projectName, checkName);
             List<Channel> channelList = cacheChannelMap.get(key);
             if (channelList == null) {
                 channelList = channelService.getChannel(projectName, checkName);
@@ -63,16 +64,13 @@ public class CreateNoticeJob extends QuartzJobBean {
             notification.setCreated(new Date());
             notification.setCheckName(flip.getCheckName());
             notification.setError(flip.getContent());
-            notification.setStatus("N");
+            notification.setStatus(CommonConstants.UN_HANDLE_STATUS);
             notificationList.add(notification);
         }
         notificationService.saveBatch(notificationList);
         // 更新flip状态，表示已处理
-        flip.setStatus("Y");
+        flip.setStatus(CommonConstants.SUCCESS_HANDLE_STATUS);
         flipService.saveOrUpdate(flip);
     }
 
-    private String bulidKey(String projectName, String checkName) {
-        return projectName+"-"+checkName;
-    }
 }

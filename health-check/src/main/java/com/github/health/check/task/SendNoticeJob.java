@@ -1,5 +1,6 @@
 package com.github.health.check.task;
 
+import com.github.health.check.constant.CommonConstants;
 import com.github.health.check.domain.entity.Notification;
 import com.github.health.check.message.MsgSenderFactory;
 import com.github.health.check.service.NotificationService;
@@ -34,7 +35,7 @@ public class SendNoticeJob extends QuartzJobBean {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void sendOneNotice(Notification notification) {
         MsgSenderFactory.getMsgSender(notification.getMethod()).send(notification);
-        notification.setStatus("Y");
+        notification.setStatus(CommonConstants.SUCCESS_HANDLE_STATUS);
         notificationService.save(notification);
     }
 }

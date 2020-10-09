@@ -16,4 +16,8 @@ public interface CommonConstants {
 
     String FAIL_MESSAGE = "fail";
 
+    String SUCCESS_HANDLE_STATUS = "Y"; // 表示已处理
+
+    String UN_HANDLE_STATUS = "N"; // 表示未处理
+
 }

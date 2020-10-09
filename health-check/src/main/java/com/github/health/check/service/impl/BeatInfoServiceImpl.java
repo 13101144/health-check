@@ -1,6 +1,7 @@
 package com.github.health.check.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.health.check.constant.CommonConstants;
 import com.github.health.check.domain.entity.Project;
 import com.github.health.check.enums.ErrorCode;
 import com.github.health.check.exception.BusinessException;
@@ -27,7 +28,7 @@ public class BeatInfoServiceImpl extends ServiceImpl<BeatInfoMapper, BeatInfo> i
     public void createBeat(BeatInfo beatInfo) {
         checkBeat(beatInfo.getOwner(), beatInfo.getName(), beatInfo.getCode());
         heatLimit(beatInfo.getServiceName());
-        beatInfo.setStatus("N");
+        beatInfo.setStatus(CommonConstants.UN_HANDLE_STATUS);
         beatInfoMapper.insert(beatInfo);
     }
 

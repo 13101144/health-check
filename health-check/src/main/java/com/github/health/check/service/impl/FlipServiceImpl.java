@@ -2,6 +2,7 @@ package com.github.health.check.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.health.check.constant.CommonConstants;
 import com.github.health.check.domain.entity.Flip;
 import com.github.health.check.mapper.FlipMapper;
 import com.github.health.check.service.FlipService;
@@ -19,7 +20,7 @@ public class FlipServiceImpl extends ServiceImpl<FlipMapper, Flip> implements Fl
 
     @Override
     public List<Flip> getUnhandleFlips() {
-        QueryWrapper queryWrapper = new QueryWrapper<>().eq("status","N");
+        QueryWrapper queryWrapper = new QueryWrapper<>().eq("status", CommonConstants.UN_HANDLE_STATUS);
         List<Flip> flips = flipMapper.selectList(queryWrapper);
         return flips;
     }

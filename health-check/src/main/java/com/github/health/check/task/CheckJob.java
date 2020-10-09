@@ -1,6 +1,6 @@
 package com.github.health.check.task;
 
-
+import com.github.health.check.constant.CommonConstants;
 import com.github.health.check.domain.entity.BeatInfo;
 import com.github.health.check.domain.entity.CheckResult;
 import com.github.health.check.domain.entity.Difference;
@@ -72,7 +72,7 @@ public class CheckJob extends QuartzJobBean {
                     flip.setProjectName(projectName);
                     flip.setCheckName(checkName);
                     flip.setCreated(new Date());
-                    flip.setStatus("N");
+                    flip.setStatus(CommonConstants.UN_HANDLE_STATUS);
                     flip.setContent(content);
                     flipService.save(flip);
                 }
@@ -88,14 +88,14 @@ public class CheckJob extends QuartzJobBean {
             checkResultNew.setCheckName(checkName);
             checkResultNew.setBeatCreated(beatInfo.getCreated());//
             checkResultNew.setAddress(beatInfo.getAddress());
-            checkResultNew.setStatus("Y");
+            checkResultNew.setStatus(CommonConstants.SUCCESS_HANDLE_STATUS);
             checkResultNew.setCreated(new Date());
 
         } else {
             checkResultNew.setBeatId(0L);
             checkResultNew.setProjectName(projectName);
             checkResultNew.setCheckName(checkName);
-            checkResultNew.setStatus("N");
+            checkResultNew.setStatus(CommonConstants.UN_HANDLE_STATUS);
             checkResultNew.setCreated(new Date());
             if (isFirstJudge) {
                 checkResultNew.setBeatCreated(new Date());
