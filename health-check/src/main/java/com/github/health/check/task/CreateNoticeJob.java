@@ -33,7 +33,6 @@ public class CreateNoticeJob extends QuartzJobBean {
         if (flips.size() == 0) {
             return;
         }
-
         for (Flip flip : flips) {
             String projectName = flip.getProjectName();
             String checkName = flip.getCheckName();

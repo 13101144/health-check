@@ -8,4 +8,5 @@ public interface DifferenceService extends IService<Difference> {
     Difference getJobDValue(String jobName, String jobGroup);
 
     Boolean removeJobDValue(String jobName, String jobGroup);
+
 }

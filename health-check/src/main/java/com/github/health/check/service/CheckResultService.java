@@ -9,4 +9,5 @@ public interface CheckResultService extends IService<CheckResult> {
     CheckResult getNewestBeat(String projectName, String checkName);
 
     IPage getCheckResultPage(int page, String name);
+
 }

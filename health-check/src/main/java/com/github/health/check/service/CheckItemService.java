@@ -19,4 +19,5 @@ public interface CheckItemService extends IService<CheckItem> {
     List<CheckItem> listCheck();
 
     CheckItem getCheckItem(String projectName, String checkName);
+
 }

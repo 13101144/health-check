@@ -26,7 +26,6 @@ public class SendNoticeJob extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
 
         List<Notification> list = notificationService.getUnHandleNotification();
-
         for (Notification notification: list) {
             sendOneNotice(notification);
         }

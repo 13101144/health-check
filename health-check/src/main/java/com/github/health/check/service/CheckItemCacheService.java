@@ -11,4 +11,5 @@ public interface CheckItemCacheService {
     void remove(String key);
 
     void add(String key, CheckItem checkItem);
+
 }

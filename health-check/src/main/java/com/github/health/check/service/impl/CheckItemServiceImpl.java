@@ -11,6 +11,7 @@ import com.github.health.check.mapper. CheckItemMapper;
 import com.github.health.check.service.CheckItemCacheService;
 import com.github.health.check.service.CheckItemService;
 import com.github.health.check.util.JobUtil;
+import com.github.health.check.util.KeyGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,12 +36,12 @@ public class CheckItemServiceImpl extends ServiceImpl< CheckItemMapper,  CheckIt
 
     @Override
     @Transactional
-    public Boolean saveCheck( CheckItem check) throws Exception{
-        check.setCreated(LocalDateTime.now());
-        checkItemMapper.insert(check);
-        String key = check.getProjectName()+"-"+check.getName();
-        checkItemCacheService.add(key, check);
-        jobUtil.addJob(check);
+    public Boolean saveCheck( CheckItem checkItem) throws Exception{
+        checkItem.setCreated(LocalDateTime.now());
+        checkItemMapper.insert(checkItem);
+        String key = KeyGenerator.generateKey(checkItem.getProjectName(),checkItem.getName());
+        checkItemCacheService.add(key, checkItem);
+        jobUtil.addJob(checkItem);
         return Boolean.TRUE;
     }
 
@@ -48,14 +49,13 @@ public class CheckItemServiceImpl extends ServiceImpl< CheckItemMapper,  CheckIt
     @Transactional
     public Boolean updateCheck(CheckItem checkItem) throws Exception{
         checkItem.setUpdated(LocalDateTime.now());
-        String key = checkItem.getProjectName()+"-"+checkItem.getName();
+        String key = KeyGenerator.generateKey(checkItem.getProjectName(),checkItem.getName());
         checkItemCacheService.remove(key);
         // 检查cron表达式是否变化
         String oldSchedule = checkItemMapper.selectById(checkItem.getId()).getSchedule();
         if (!oldSchedule.equals(checkItem.getSchedule())) {
             jobUtil.modifyJob(checkItem);
         }
-
         return this.updateById(checkItem);
     }
 

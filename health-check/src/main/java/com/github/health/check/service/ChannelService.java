@@ -9,4 +9,5 @@ import java.util.List;
 public interface ChannelService extends IService<Channel> {
 
     List<Channel> getChannel(String projectName, String checkName);
+
 }

@@ -4,10 +4,7 @@ import com.github.health.check.domain.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class JwtUtil {
     public static final String TOKEN_HEADER = "Authorization";
@@ -17,14 +14,13 @@ public class JwtUtil {
 
     public static final long EXPIRITION = 1000 * 24 * 60 * 60 * 7;
 
-    public static final String APPSECRET_KEY = "congge_secret";
+    public static final String APPSECRET_KEY = "health-check-secret";
 
     public static String createToken(User user) {
 
         if (user.getUsername() == null) {
             return null;
         }
-
         String token = Jwts
                 .builder()
                 .setSubject(SUBJECT)
@@ -37,8 +33,6 @@ public class JwtUtil {
     }
 
     public static String createToken(String username,String role) {
-
-
         String token = Jwts
                 .builder()
                 .setSubject(SUBJECT)

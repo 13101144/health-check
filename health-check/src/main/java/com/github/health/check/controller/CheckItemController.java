@@ -7,6 +7,7 @@ import com.github.health.check.domain.entity.CheckItem;
 import com.github.health.check.service.CheckItemCacheService;
 import com.github.health.check.service.CheckItemService;
 import com.github.health.check.util.JobUtil;
+import com.github.health.check.util.KeyGenerator;
 import com.github.health.check.util.R;
 import com.sun.tools.javac.comp.Check;
 import io.swagger.annotations.Api;
@@ -61,10 +62,9 @@ public class CheckItemController {
     @ApiOperation(value = "删除检查项信息")
     public R deleteCheck(@RequestParam long id) throws Exception{
         CheckItem checkItem = checkItemService.getById(id);
-        String key = checkItem.getProjectName()+"-"+checkItem.getName();
+        String key = KeyGenerator.generateKey(checkItem.getProjectName(), checkItem.getName());
         checkItemCacheService.remove(key);
         checkItemService.removeById(id);
-
         if (checkItem != null) {
             jobUtil.removeJob(checkItem);
         }

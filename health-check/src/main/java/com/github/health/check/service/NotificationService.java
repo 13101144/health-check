@@ -12,4 +12,5 @@ public interface NotificationService extends IService<Notification> {
     IPage getNotificationPage(int page, String name);
 
     List<Notification> getUnHandleNotification();
+
 }

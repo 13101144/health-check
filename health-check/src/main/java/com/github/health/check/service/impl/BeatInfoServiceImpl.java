@@ -28,7 +28,6 @@ public class BeatInfoServiceImpl extends ServiceImpl<BeatInfoMapper, BeatInfo> i
         checkBeat(beatInfo.getOwner(), beatInfo.getName(), beatInfo.getCode());
         heatLimit(beatInfo.getServiceName());
         beatInfo.setStatus("N");
-
         beatInfoMapper.insert(beatInfo);
     }
 
@@ -57,7 +56,7 @@ public class BeatInfoServiceImpl extends ServiceImpl<BeatInfoMapper, BeatInfo> i
     private void checkBeat(String owner, String projectName, String code) {
         Project project = projectMapper.queryProject(owner, projectName, code);
         if (project == null) {
-            throw new BusinessException(ErrorCode.PROJECT_NOT_FOUND.getCode(),ErrorCode.PROJECT_NOT_FOUND.getMsg());
+            throw new BusinessException(ErrorCode.PROJECT_NOT_FOUND);
         }
     }
 

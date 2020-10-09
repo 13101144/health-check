@@ -12,6 +12,7 @@ public enum ErrorCode {
     USERNAME_HAS_EXIST(20001,"用户名已存在"),
     USER_NOT_FOUND(20002,"用户没有找到"),
     PROJECT_NOT_FOUND(30001,"工程不存在");
+
     private int code;
 
     private String msg;

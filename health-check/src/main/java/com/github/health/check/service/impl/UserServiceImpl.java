@@ -7,16 +7,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.health.check.domain.entity.User;
 import com.github.health.check.mapper.UserMapper;
 import com.github.health.check.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
@@ -29,7 +25,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public Integer saveUser(User user) {
-
         user.setCreated(new Date());
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userMapper.insert(user);
@@ -49,7 +44,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             queryWrapper.eq("username",name);
             return userMapper.selectPage(userPage, queryWrapper);
         }
-
         return userMapper.selectPage(userPage, null);
     }
 }

@@ -6,6 +6,7 @@ import com.github.health.check.domain.entity.Flip;
 import com.github.health.check.domain.entity.Notification;
 import com.github.health.check.service.*;
 import com.github.health.check.util.DateUtil;
+import com.github.health.check.util.KeyGenerator;
 import com.github.health.check.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,7 +45,7 @@ public class BeatInfoController {
     public R clientBeat(@Valid @RequestBody BeatInfo beatInfo) {
         String projectName = beatInfo.getName();
         String checkName = beatInfo.getServiceName();
-        String key = beatInfo.getName()+ "-"+beatInfo.getServiceName();
+        String key = KeyGenerator.generateKey(checkName, projectName);
         CheckItem checkItem = checkItemCacheService.get(key);
         if (checkItem == null) {
             checkItem = checkItemService.getCheckItem(projectName, checkName);
@@ -53,7 +54,6 @@ public class BeatInfoController {
             }
         }
         if (checkItem != null) {
-
             long diff = DateUtil.sub(beatInfo.getEndTime(), beatInfo.getBeginTime());
             if (diff > checkItem.getMaxExecTime()) {
                 String content = buildNoticeContent(projectName, checkName, diff);

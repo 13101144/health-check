@@ -1,6 +1,7 @@
 package com.github.health.check.exception;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.github.health.check.enums.ErrorCode;
 
 /**
  * 业务异常
@@ -16,6 +17,12 @@ public class BusinessException extends RuntimeException {
     private Throwable causeThrowable;
 
     public BusinessException() {
+    }
+
+    public BusinessException(ErrorCode errorCode) {
+        super(errorCode.getMsg());
+        this.errCode = errorCode.getCode();
+        this.errMsg = errorCode.getMsg();
     }
 
     public BusinessException(final int errCode, final String errMsg) {
